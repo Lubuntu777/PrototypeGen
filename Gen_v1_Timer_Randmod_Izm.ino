@@ -7,7 +7,7 @@
 TM1638 module(8, 10, 7);
 byte keys = module.getButtons();
 int a=0;
-static uint32_t reqfreq=600000; //переменная запроса частоты
+static uint32_t reqfreq=333333; //переменная запроса частоты
 uint32_t ocr=OCR1A;  uint16_t divider=1;  float freq; 
 long randNumber;
 
@@ -73,7 +73,7 @@ if (keys==2) module.setDisplayToDecNumber(u,0,false);
 if (keys==2) goto xxx;
 if (keys==4) module.setDisplayToDecNumber(q,0,false);
 if (keys==4) goto xxx;
-if (keys==1) reqfreq=300000;
+if (keys==1) reqfreq=333333;
 if (keys==1) tone(12, 2000, 500);
 if (keys==128) a=600;
 if (keys==64) a=300;
