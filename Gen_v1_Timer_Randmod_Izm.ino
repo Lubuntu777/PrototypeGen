@@ -70,7 +70,7 @@ if (keys==16) reqfreq=reqfreq+10000;
 if (keys==8) reqfreq=reqfreq-10000;
 
 if (keys==2) module.setDisplayToDecNumber(u,0,false);
-if (keys==2) goto xxx;
+if (keys==2) goto qqq;
 if (keys==4) module.setDisplayToDecNumber(q,0,false);
 if (keys==4) goto xxx;
 if (keys==1) reqfreq=333333;
@@ -94,6 +94,19 @@ if (reqfreq==0 || reqfreq>F_CPU/2) {return;}
   if (freq <10000) { Serial.print(freq,1);Serial.println(" Hz "); }
  if (freq >=10000) { Serial.print(freq/1000,3);Serial.println(" kHz");}
  module.setDisplayToDecNumber(freq,0,false);
+
+ qqq:
+ if (reqfreq==0 || reqfreq>F_CPU/2) {return;}
+ ocr = (F_CPU / reqfreq /2 /divider); 
+  
+   for(byte i = 0; i < 4; i++){
+     if (ocr > 65536) { divider <<= shifts[i];
+       ocr = F_CPU / reqfreq /2 /divider; }
+      else { TCCR1B = (i+1)|(1<<WGM12);  break; }  } //Mode4 (CTC)
+     OCR1A=ocr-1; TCCR1A=1<<COM1A0;
+    freq= (float) F_CPU/2 / (OCR1A+1) /divider;
+  if (freq <10000) { Serial.print(freq,1);Serial.println(" Hz "); }
+ if (freq >=10000) { Serial.print(freq/1000,3);Serial.println(" kHz");}
  
  xxx:
  
